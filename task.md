@@ -1,8 +1,8 @@
 # FitSmak Branding Implementation
 
 ## Tasks
-- [ ] Create FitSmak logo SVG file
-- [ ] Update app title to FitSmak
-- [ ] Add logo to home screen
-- [ ] Update README with new branding
-- [ ] Commit and push changes to GitHub
+- [x] Create FitSmak logo SVG file
+- [x] Update app title to FitSmak
+- [x] Add logo to home screen
+- [x] Update README with new branding
+- [x] Commit and push changes to GitHub

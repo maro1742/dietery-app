@@ -7,13 +7,13 @@ function renderHomeScreen() {
     const app = document.getElementById('app');
     app.innerHTML = `
         <div class="header-with-logo">
-            <div class="logo-container">
+            <div class="brand-header-top">
                 <img src="assets/logo.svg" alt="FitSmak Logo" class="app-logo">
                 <div class="brand-name">
                     <span class="brand-fit">Fit</span><span class="brand-smak">Smak</span>
                 </div>
-                <p class="brand-tagline">Twoja spersonalizowana kuchnia w zasięgu ręki</p>
             </div>
+            <p class="brand-tagline">Twoja spersonalizowana kuchnia w zasięgu ręki</p>
         </div>
         ${createSearchBar()}
         
