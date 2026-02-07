@@ -6,7 +6,15 @@ function renderHomeScreen() {
 
     const app = document.getElementById('app');
     app.innerHTML = `
-        ${createHeader('Dzień dobry!', 'Cześć! Co dziś gotujemy?')}
+        <div class="header-with-logo">
+            <div class="logo-container">
+                <img src="assets/logo.svg" alt="FitSmak Logo" class="app-logo">
+                <div class="brand-name">
+                    <span class="brand-fit">Fit</span><span class="brand-smak">Smak</span>
+                </div>
+                <p class="brand-tagline">Twoja spersonalizowana kuchnia w zasięgu ręki</p>
+            </div>
+        </div>
         ${createSearchBar()}
         
         <div class="container">

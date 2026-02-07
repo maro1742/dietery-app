@@ -1,4 +1,4 @@
-# 🥗 Personalized Dietary Recipe App
+# 🥗 FitSmak - Twoja spersonalizowana kuchnia
 
 A modern, fully-featured dietary and meal planning application built with vanilla JavaScript. Features personalized recipe recommendations, shopping list management, and comprehensive user preference configuration with a beautiful Polish-language interface.
 

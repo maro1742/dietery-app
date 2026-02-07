@@ -1,0 +1,16 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer circle (black border) -->
+  <circle cx="60" cy="60" r="50" stroke="#1a1a1a" stroke-width="6" fill="none"/>
+  
+  <!-- Inner dashed circle (light gray) -->
+  <circle cx="60" cy="60" r="35" stroke="#d1d5db" stroke-width="2" stroke-dasharray="4 4" fill="none"/>
+  
+  <!-- Green leaf -->
+  <path d="M 60 10 Q 75 20 75 35 Q 75 45 65 50 L 60 45 Q 70 40 70 35 Q 70 25 60 18 Z" 
+        fill="#00ff88" 
+        stroke="#00ff88" 
+        stroke-width="1"/>
+  
+  <!-- Leaf shadow/depth -->
+  <ellipse cx="60" cy="65" rx="45" ry="8" fill="rgba(0,0,0,0.1)"/>
+</svg>
