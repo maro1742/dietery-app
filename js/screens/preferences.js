@@ -5,14 +5,43 @@ function renderPreferencesScreen() {
     const user = AuthService.user;
 
     const app = document.getElementById('app');
+
+    if (!user) {
+        app.innerHTML = `
+            <div class="container" style="padding-top: var(--spacing-xl); text-align: center;">
+                <div class="auth-box" style="margin-top: 50px;">
+                    <div class="mb-lg">
+                        <div style="font-size: 64px; margin-bottom: 20px;">👤</div>
+                        <h1 class="mb-sm">Tryb Gościa</h1>
+                        <p class="text-secondary mb-xl">Zaloguj się, aby zapisywać swoje ulubione przepisy i synchronizować plany posiłków między urządzeniami.</p>
+                        
+                        <button class="btn-primary mb-md" onclick="navigateToScreen('login')">Zaloguj się</button>
+                        <p class="text-secondary">Nie masz konta? <a href="#" onclick="navigateToScreen('signup')" class="text-green font-semibold">Zarejestruj się</a></p>
+                    </div>
+                </div>
+            </div>
+        `;
+        return;
+    }
+
     app.innerHTML = `
         <div class="container" style="padding-top: var(--spacing-xl);">
-            <div class="flex-between mb-lg">
+            <div class="flex-between mb-lg" style="align-items: flex-start;">
                 <div>
-                    <h1 class="mb-xs">Preferencje</h1>
-                    <p class="text-secondary" style="font-size: var(--font-size-sm);">${user ? `Zalogowany jako: <strong>${user.email}</strong>` : 'Tryb gościa'}</p>
+                    <h1 class="mb-xs">Mój Profil</h1>
+                    <div class="flex align-center gap-sm">
+                        <div style="width: 10px; height: 10px; border-radius: 50%; background: #4ADE80;"></div>
+                        <p class="text-secondary" style="font-size: var(--font-size-sm);">Zalogowany jako: <strong>${user.email}</strong></p>
+                    </div>
                 </div>
-                ${user ? `<button class="btn-secondary" id="logout-btn" style="color: #FF5252; border-color: #FF5252;">Wyloguj</button>` : ''}
+                <button class="btn-secondary" id="logout-btn" style="color: #FF5252; border-color: #FF5252; padding: 8px 16px; font-size: 14px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; margin-right: 4px; vertical-align: middle;">
+                        <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    Wyloguj
+                </button>
             </div>
             
             <h3 class="mb-sm">Twoje Cele</h3>
@@ -30,7 +59,7 @@ function renderPreferencesScreen() {
                 ${createPillButton('🥑 Keto', 'keto', preferences.dietType === 'keto')}
                 ${createPillButton('🥗 Wegetariańska', 'wegetarianska', preferences.dietType === 'wegetarianska')}
                 ${createPillButton('🌱 Wegańska', 'weganska', preferences.dietType === 'weganska')}
-                ${createPillButton('🥩 Paleo', 'paleo', preferences.dietType === 'paleo')}
+                ${createPillButton('🌱 Paleo', 'paleo', preferences.dietType === 'paleo')}
                 ${createPillButton('🌾 Bez glutenu', 'bez-glutenu', preferences.dietType === 'bez-glutenu')}
             </div>
             

@@ -146,6 +146,13 @@ function attachRecipeDetailEventListeners(recipe) {
     const favoriteButton = document.querySelector('.recipe-card-favorite');
     if (favoriteButton) {
         favoriteButton.addEventListener('click', () => {
+            if (!AuthService.isAuthenticated()) {
+                if (confirm('Zaloguj się, aby dodawać przepisy do ulubionych. Chcesz przejść do logowania?')) {
+                    navigateToScreen('login');
+                }
+                return;
+            }
+
             toggleFavorite(recipe.id);
             const svg = favoriteButton.querySelector('svg');
             if (isFavorite(recipe.id)) {
@@ -184,6 +191,13 @@ function attachRecipeDetailEventListeners(recipe) {
     const addButton = document.getElementById('add-to-meal-plan');
     if (addButton) {
         addButton.addEventListener('click', () => {
+            if (!AuthService.isAuthenticated()) {
+                if (confirm('Zaloguj się, aby planować posiłki i tworzyć listy zakupów. Chcesz przejść do logowania?')) {
+                    navigateToScreen('login');
+                }
+                return;
+            }
+
             addRecipeToMealPlan(recipe.id);
 
             // Show feedback

@@ -2,6 +2,8 @@
 
 // Filter recipes based on user preferences
 function filterRecipesByPreferences(recipes, preferences) {
+    if (!preferences || !preferences.allergies) return recipes;
+
     return recipes.filter(recipe => {
         // Filter by allergies
         if (preferences.allergies.orzechy && hasNuts(recipe)) return false;
@@ -152,13 +154,16 @@ function debounce(func, wait) {
 function getPersonalizedRecommendations(preferences, count = 10) {
     let recipes = [...RECIPES_DB];
 
+    if (!preferences) return recipes.slice(0, count);
+
     // Filter by allergies
     recipes = filterRecipesByPreferences(recipes, preferences);
 
     // Prioritize recipes matching diet type
+    const dietType = preferences.dietType;
     recipes.sort((a, b) => {
-        const aMatch = matchesDietType(a, preferences.dietType);
-        const bMatch = matchesDietType(b, preferences.dietType);
+        const aMatch = matchesDietType(a, dietType);
+        const bMatch = matchesDietType(b, dietType);
         if (aMatch && !bMatch) return -1;
         if (!aMatch && bMatch) return 1;
 

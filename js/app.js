@@ -20,11 +20,8 @@ async function initializeApp() {
     await loadInitialData();
 
     // 4. Initial Navigation
-    if (AuthService.isAuthenticated()) {
-        navigateToScreen('home');
-    } else {
-        navigateToScreen('login');
-    }
+    // We now always start at home (Guest Mode by default)
+    navigateToScreen('home');
 
     // Attach bottom navigation listeners
     attachBottomNavListeners();
@@ -57,10 +54,13 @@ function setupAuthListener() {
                 }
             });
         } else {
-            // Guard: if we are not on an auth screen and user logged out, go to login
-            const publicScreens = ['login', 'signup', 'forgot-password', 'reset-password'];
-            if (!publicScreens.includes(currentScreen)) {
+            // If user logged out, refresh the current screen
+            // Only force 'login' if we are on a protected screen
+            const protectedScreens = ['planner', 'shopping-list', 'preferences'];
+            if (protectedScreens.includes(currentScreen)) {
                 navigateToScreen('login');
+            } else {
+                navigateToScreen(currentScreen);
             }
         }
     });
@@ -69,11 +69,14 @@ function setupAuthListener() {
 
 // Navigation functions
 function navigateToScreen(screenName) {
-    // --- AUTH GUARD ---
-    const publicScreens = ['login', 'signup', 'forgot-password', 'reset-password'];
+    // --- NEW SELECTIVE AUTH GUARD ---
+    const publicScreens = ['home', 'discover', 'recipe-detail', 'login', 'signup', 'forgot-password', 'reset-password'];
     const isAuthRequired = !publicScreens.includes(screenName);
 
     if (isAuthRequired && !AuthService.isAuthenticated()) {
+        // Instead of forcing login screen instantly, we could show a prompt,
+        // but for now, navigating to 'login' is the clearest way to "require auth"
+        // for private areas like Planner or Shopping List.
         currentScreen = 'login';
         renderLoginScreen();
         updateBottomNavState('login');
