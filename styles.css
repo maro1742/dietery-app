@@ -64,32 +64,30 @@ body {
 
 /* ===== BRANDING ===== */
 .header-with-logo {
-    padding: var(--spacing-xl) var(--spacing-lg) var(--spacing-md);
+    padding: var(--spacing-lg);
     background: var(--surface);
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    /* Aligned to left */
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-md);
 }
 
 .brand-header-top {
     display: flex;
     align-items: center;
     gap: var(--spacing-md);
-    width: 100%;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: 0;
 }
 
 .app-logo {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    /* Make it round */
     object-fit: cover;
 }
 
 .brand-name {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 800;
     letter-spacing: -1px;
 }
@@ -103,21 +101,33 @@ body {
 }
 
 .brand-tagline {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
     color: var(--text-secondary);
-    text-align: left;
-    width: 100%;
-    line-height: 1.4;
-    border-top: 1px solid var(--border);
-    padding-top: var(--spacing-md);
+    text-align: right;
+    max-width: 150px;
+    line-height: 1.2;
+    border-top: none;
+    padding-top: 0;
 }
 
 .screen-header {
     background: var(--surface);
-    padding: var(--spacing-xl) var(--spacing-lg) var(--spacing-md);
+    padding: var(--spacing-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.screen-header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.screen-header-info {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-md);
 }
 
 /* ===== TYPOGRAPHY ===== */
@@ -619,6 +629,49 @@ button {
 
 .hidden {
     display: none;
+}
+
+.mobile-only {
+    display: block;
+}
+
+.desktop-only {
+    display: none;
+}
+
+@media (min-width: 1024px) {
+    .mobile-only {
+        display: none;
+    }
+
+    .desktop-only {
+        display: block;
+    }
+}
+
+/* ===== DESKTOP HOMEPAGE LAYOUT ===== */
+.desktop-layout-home {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-xl);
+    align-items: start;
+}
+
+.desktop-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.desktop-column-header {
+    border-bottom: 2px solid var(--primary-green);
+    padding-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+}
+
+.desktop-column-header h2 {
+    font-size: var(--font-size-lg);
+    color: var(--text-primary);
 }
 
 /* ===== AUTHENTICATION ===== */

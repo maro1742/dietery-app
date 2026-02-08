@@ -17,25 +17,63 @@ function renderHomeScreen() {
         </div>
         ${createSearchBar()}
         
-        <div class="container">
-            <div class="tabs" id="category-tabs">
-                <button class="tab-button ${currentCategory === 'wszystkie' ? 'active' : ''}" data-category="wszystkie">Wszystkie</button>
-                <button class="tab-button ${currentCategory === 'sniadanie' ? 'active' : ''}" data-category="sniadanie">Śniadanie</button>
-                <button class="tab-button ${currentCategory === 'obiad' ? 'active' : ''}" data-category="obiad">Obiady</button>
-                <button class="tab-button ${currentCategory === 'kolacja' ? 'active' : ''}" data-category="kolacja">Kolacja</button>
-            </div>
-        </div>
-        
-        <div class="container">
-            <div class="flex-between mb-md">
-                <h2>Polecane dla Ciebie</h2>
-                <button class="text-green font-semibold" style="background: none; font-size: var(--font-size-sm);">
-                    Zobacz wszystko
-                </button>
+        <!-- Mobile Layout -->
+        <div class="mobile-only">
+            <div class="container">
+                <div class="tabs" id="category-tabs">
+                    <button class="tab-button ${currentCategory === 'wszystkie' ? 'active' : ''}" data-category="wszystkie">Wszystkie</button>
+                    <button class="tab-button ${currentCategory === 'sniadanie' ? 'active' : ''}" data-category="sniadanie">Śniadanie</button>
+                    <button class="tab-button ${currentCategory === 'obiad' ? 'active' : ''}" data-category="obiad">Obiady</button>
+                    <button class="tab-button ${currentCategory === 'kolacja' ? 'active' : ''}" data-category="kolacja">Kolacja</button>
+                </div>
             </div>
             
-            <div class="grid" id="recipe-grid">
-                ${renderRecipeGrid(currentCategory, preferences)}
+            <div class="container">
+                <div class="flex-between mb-md">
+                    <h2>Polecane dla Ciebie</h2>
+                    <button class="text-green font-semibold" style="background: none; font-size: var(--font-size-sm);">
+                        Zobacz wszystko
+                    </button>
+                </div>
+                
+                <div class="grid" id="recipe-grid">
+                    ${renderRecipeGrid(currentCategory, preferences)}
+                </div>
+            </div>
+        </div>
+
+        <!-- Desktop Layout -->
+        <div class="desktop-only container" style="max-width: 1400px;">
+            <div class="desktop-layout-home">
+                <!-- Column 1: Breakfast -->
+                <div class="desktop-column">
+                    <div class="desktop-column-header">
+                        <h2>Śniadania</h2>
+                    </div>
+                    <div class="grid" style="grid-template-columns: 1fr;">
+                        ${renderRecipeGrid('sniadanie', preferences)}
+                    </div>
+                </div>
+
+                <!-- Column 2: Lunch -->
+                <div class="desktop-column">
+                    <div class="desktop-column-header">
+                        <h2>Obiady</h2>
+                    </div>
+                    <div class="grid" style="grid-template-columns: 1fr;">
+                        ${renderRecipeGrid('obiad', preferences)}
+                    </div>
+                </div>
+
+                <!-- Column 3: Dinner -->
+                <div class="desktop-column">
+                    <div class="desktop-column-header">
+                        <h2>Kolacje</h2>
+                    </div>
+                    <div class="grid" style="grid-template-columns: 1fr;">
+                        ${renderRecipeGrid('kolacja', preferences)}
+                    </div>
+                </div>
             </div>
         </div>
     `;

@@ -9,10 +9,13 @@ function renderPreferencesScreen() {
     if (!user) {
         app.innerHTML = `
             <div class="screen-header">
-                <div class="brand-header-top" onclick="navigateToScreen('home')" style="cursor: pointer;">
-                    <img src="assets/logo.svg" alt="FitSmak Logo" class="app-logo">
-                    <div class="brand-name">
-                        <span class="brand-fit">Fit</span><span class="brand-smak">Smak</span>
+                <div class="screen-header-left">
+                    <div class="brand-header-top" onclick="navigateToScreen('home')" style="cursor: pointer; width: auto; margin-bottom: 0;">
+                        <img src="assets/logo.svg" alt="FitSmak Logo" class="app-logo">
+                    </div>
+                    <div class="screen-header-info">
+                        <h1 style="font-size: var(--font-size-lg); margin: 0;">Profil</h1>
+                        <p class="text-secondary" style="font-size: var(--font-size-xs); margin: 0;">Tryb gościa</p>
                     </div>
                 </div>
             </div>
