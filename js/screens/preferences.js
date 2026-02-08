@@ -1,13 +1,19 @@
 // ===== PREFERENCES SCREEN =====
 
 function renderPreferencesScreen() {
-    const preferences = loadPreferences();
+    const preferences = getPreferences();
+    const user = AuthService.user;
 
     const app = document.getElementById('app');
     app.innerHTML = `
         <div class="container" style="padding-top: var(--spacing-xl);">
-            <h1 class="mb-sm">Preferencje</h1>
-            <p class="text-secondary mb-lg">Skonfiguruj swoje ustawienia żywieniowe</p>
+            <div class="flex-between mb-lg">
+                <div>
+                    <h1 class="mb-xs">Preferencje</h1>
+                    <p class="text-secondary" style="font-size: var(--font-size-sm);">${user ? `Zalogowany jako: <strong>${user.email}</strong>` : 'Tryb gościa'}</p>
+                </div>
+                ${user ? `<button class="btn-secondary" id="logout-btn" style="color: #FF5252; border-color: #FF5252;">Wyloguj</button>` : ''}
+            </div>
             
             <h3 class="mb-sm">Twoje Cele</h3>
             <p class="text-secondary mb-md" style="font-size: var(--font-size-sm);">
@@ -50,7 +56,7 @@ function renderPreferencesScreen() {
 }
 
 function attachPreferencesEventListeners() {
-    const preferences = loadPreferences();
+    const preferences = getPreferences();
 
     // Goal selection
     document.querySelectorAll('.goal-card').forEach(card => {
@@ -84,6 +90,17 @@ function attachPreferencesEventListeners() {
             preferences.allergies[allergy] = e.target.checked;
         });
     });
+
+    // Logout button
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+            const confirmed = confirm('Czy na pewno chcesz się wylogować?');
+            if (confirmed) {
+                await AuthService.signOut();
+            }
+        });
+    }
 
     // Save button
     const saveButton = document.getElementById('save-preferences');

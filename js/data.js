@@ -215,58 +215,144 @@ let mealPlan = {
 // Favorites
 let favorites = [];
 
-// ===== LOCAL STORAGE HELPERS =====
-function loadPreferences() {
-    const stored = localStorage.getItem('userPreferences');
-    return stored ? JSON.parse(stored) : DEFAULT_PREFERENCES;
+// User Preferences State
+let userPreferences = DEFAULT_PREFERENCES;
+
+// ===== DATA LAYER WITH FIREBASE SYNC =====
+
+// Helper to get user document reference
+function getUserDocRef() {
+    if (!AuthService.user) return null;
+    return typeof db !== 'undefined' ? db.collection('users').doc(AuthService.user.uid) : null;
 }
 
-function savePreferences(preferences) {
+// ===== LOCAL STORAGE HELPERS (with Firestore sync) =====
+async function loadPreferences() {
+    let prefs = null;
+    const userDoc = getUserDocRef();
+    if (userDoc) {
+        try {
+            const doc = await userDoc.get();
+            if (doc.exists && doc.data().preferences) {
+                prefs = doc.data().preferences;
+            }
+        } catch (e) { console.error('Error loading preferences from Firestore:', e); }
+    }
+
+    if (!prefs) {
+        const stored = localStorage.getItem('userPreferences');
+        prefs = stored ? JSON.parse(stored) : DEFAULT_PREFERENCES;
+    }
+
+    userPreferences = prefs;
+    return userPreferences;
+}
+
+function getPreferences() {
+    return userPreferences;
+}
+
+async function savePreferences(preferences) {
+    userPreferences = preferences;
     localStorage.setItem('userPreferences', JSON.stringify(preferences));
+    const userDoc = getUserDocRef();
+    if (userDoc) {
+        try {
+            await userDoc.set({ preferences }, { merge: true });
+        } catch (e) { console.error('Error saving preferences to Firestore:', e); }
+    }
 }
 
-function loadFavorites() {
+async function loadFavorites() {
+    const userDoc = getUserDocRef();
+    if (userDoc) {
+        try {
+            const doc = await userDoc.get();
+            if (doc.exists && doc.data().favorites) {
+                favorites = doc.data().favorites;
+                return favorites;
+            }
+        } catch (e) { console.error('Error loading favorites from Firestore:', e); }
+    }
     const stored = localStorage.getItem('favorites');
     favorites = stored ? JSON.parse(stored) : [];
     return favorites;
 }
 
-function saveFavorites() {
+async function saveFavorites() {
     localStorage.setItem('favorites', JSON.stringify(favorites));
+    const userDoc = getUserDocRef();
+    if (userDoc) {
+        try {
+            await userDoc.set({ favorites }, { merge: true });
+        } catch (e) { console.error('Error saving favorites to Firestore:', e); }
+    }
 }
 
-function toggleFavorite(recipeId) {
+async function toggleFavorite(recipeId) {
     const index = favorites.indexOf(recipeId);
     if (index > -1) {
         favorites.splice(index, 1);
     } else {
         favorites.push(recipeId);
     }
-    saveFavorites();
+    await saveFavorites();
 }
 
 function isFavorite(recipeId) {
     return favorites.includes(recipeId);
 }
 
-function loadShoppingList() {
+async function loadShoppingList() {
+    const userDoc = getUserDocRef();
+    if (userDoc) {
+        try {
+            const doc = await userDoc.get();
+            if (doc.exists && doc.data().shoppingList) {
+                shoppingList = doc.data().shoppingList;
+                return shoppingList;
+            }
+        } catch (e) { console.error('Error loading shopping list from Firestore:', e); }
+    }
     const stored = localStorage.getItem('shoppingList');
     shoppingList = stored ? JSON.parse(stored) : { items: [], completed: [] };
     return shoppingList;
 }
 
-function saveShoppingList() {
+async function saveShoppingList() {
     localStorage.setItem('shoppingList', JSON.stringify(shoppingList));
+    const userDoc = getUserDocRef();
+    if (userDoc) {
+        try {
+            await userDoc.set({ shoppingList }, { merge: true });
+        } catch (e) { console.error('Error saving shopping list to Firestore:', e); }
+    }
 }
 
-function loadMealPlan() {
+async function loadMealPlan() {
+    const userDoc = getUserDocRef();
+    if (userDoc) {
+        try {
+            const doc = await userDoc.get();
+            if (doc.exists && doc.data().mealPlan) {
+                mealPlan = doc.data().mealPlan;
+                return mealPlan;
+            }
+        } catch (e) { console.error('Error loading meal plan from Firestore:', e); }
+    }
     const stored = localStorage.getItem('mealPlan');
     mealPlan = stored ? JSON.parse(stored) : {};
     return mealPlan;
 }
 
-function saveMealPlan() {
+async function saveMealPlan() {
     localStorage.setItem('mealPlan', JSON.stringify(mealPlan));
+    const userDoc = getUserDocRef();
+    if (userDoc) {
+        try {
+            await userDoc.set({ mealPlan }, { merge: true });
+        } catch (e) { console.error('Error saving meal plan to Firestore:', e); }
+    }
 }
 
 // ===== DATA QUERIES =====
@@ -287,8 +373,4 @@ function searchRecipes(query) {
     );
 }
 
-// Initialize data on load
-loadPreferences();
-loadFavorites();
-loadShoppingList();
-loadMealPlan();
+// Data initialization is handled in app.js after auth check

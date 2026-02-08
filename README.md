@@ -14,6 +14,36 @@ A modern, fully-featured dietary and meal planning application built with vanill
 - Category filtering (Breakfast, Lunch, Dinner)
 - Favorite recipes system with localStorage persistence
 
+### Konfiguracja Firebase
+
+Aby autoryzacja i baza danych działały poprawnie, wykonaj poniższe kroki:
+
+### 1. Dane API
+Wklej swój obiekt `firebaseConfig` do pliku `js/firebase-config.js`. 
+Znajdziesz go w: **Firebase Console** -> **Project Settings** -> **General** -> Sekcja **Your apps**.
+
+### 2. Włączenie Autoryzacji Email
+1. W Firebase Console przejdź do **Authentication** -> **Sign-in method**.
+2. Włącz dostawcę **Email/Password**.
+
+### 3. Włączenie Bazy Danych
+1. Przejdź do **Firestore Database** i kliknij **Create database**.
+2. Wybierz lokalizację i zacznij w **Production mode** (bezpieczniej) lub **Test mode** (na start).
+3. Jeśli wybierzesz Production mode, dodaj reguły (Rules):
+```text
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
+```
+
+### 4. Resetowanie hasła
+Firebase wysyła link do resetowania hasła na swoją wbudowaną stronę. Możesz dostosować jej wygląd w zakładce **Authentication** -> **Templates**.
+
 ### 📖 Recipe Details
 - Full nutritional breakdown with macros (protein, carbs, fats)
 - Interactive ingredient checklists
