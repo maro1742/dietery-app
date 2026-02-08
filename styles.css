@@ -68,37 +68,56 @@ body {
     background: var(--surface);
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    /* Aligned to left */
 }
 
 .brand-header-top {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: var(--spacing-md);
     width: 100%;
-    max-width: 320px;
     margin-bottom: var(--spacing-md);
 }
 
 .app-logo {
-    width: 60px;
-    height: 60px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    /* Make it round */
+    object-fit: cover;
 }
 
 .brand-name {
-    font-size: 36px;
+    font-size: 28px;
     font-weight: 800;
     letter-spacing: -1px;
+}
+
+.brand-fit {
+    color: var(--text-primary);
+}
+
+.brand-smak {
+    color: var(--primary-green);
 }
 
 .brand-tagline {
     font-size: var(--font-size-sm);
     color: var(--text-secondary);
-    text-align: center;
+    text-align: left;
     width: 100%;
     line-height: 1.4;
     border-top: 1px solid var(--border);
     padding-top: var(--spacing-md);
+}
+
+.screen-header {
+    background: var(--surface);
+    padding: var(--spacing-xl) var(--spacing-lg) var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
 }
 
 /* ===== TYPOGRAPHY ===== */

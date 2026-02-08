@@ -15,9 +15,9 @@ function renderPlannerScreen() {
 
     const app = document.getElementById('app');
     app.innerHTML = `
-        <div class="container" style="padding-top: var(--spacing-xl);">
-            <h1 class="mb-lg">Planer Posiłków</h1>
-            
+        ${createHeader('Planer Posiłków', 'Zorganizuj swoją dietę')}
+        
+        <div class="container">
             <div class="week-view mb-lg">
                 ${weekDays.map(date => renderDayCard(date, preferences)).join('')}
             </div>

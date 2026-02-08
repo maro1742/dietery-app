@@ -3,8 +3,8 @@
 function renderSignupScreen() {
     const app = document.getElementById('app');
     app.innerHTML = `
-        <div class="container fade-in" style="padding-top: var(--spacing-xl); text-align: center;">
-            <div class="brand-header-top" style="margin: 0 auto var(--spacing-xl);">
+        <div class="container fade-in" style="padding-top: var(--spacing-xl);">
+            <div class="brand-header-top mb-xl" onclick="navigateToScreen('home')" style="cursor: pointer;">
                 <img src="assets/logo.svg" alt="FitSmak Logo" class="app-logo">
                 <div class="brand-name">
                     <span class="brand-fit">Fit</span><span class="brand-smak">Smak</span>

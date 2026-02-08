@@ -7,7 +7,7 @@ function renderHomeScreen() {
     const app = document.getElementById('app');
     app.innerHTML = `
         <div class="header-with-logo">
-            <div class="brand-header-top">
+            <div class="brand-header-top" onclick="navigateToScreen('home')" style="cursor: pointer;">
                 <img src="assets/logo.svg" alt="FitSmak Logo" class="app-logo">
                 <div class="brand-name">
                     <span class="brand-fit">Fit</span><span class="brand-smak">Smak</span>

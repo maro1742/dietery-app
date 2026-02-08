@@ -152,13 +152,19 @@ function createShoppingCategory(category, items, completedItems) {
 // Header Component
 function createHeader(title, subtitle = '') {
     return `
-        <div class="container" style="padding-top: var(--spacing-lg); padding-bottom: var(--spacing-md);">
-            <div class="flex-between mb-md">
-                <div>
-                    <h1>${title}</h1>
-                    ${subtitle ? `<p class="text-secondary" style="margin-top: 4px;">${subtitle}</p>` : ''}
+        <div class="screen-header">
+            <div class="brand-header-top" onclick="navigateToScreen('home')" style="cursor: pointer;">
+                <img src="assets/logo.svg" alt="FitSmak Logo" class="app-logo">
+                <div class="brand-name">
+                    <span class="brand-fit">Fit</span><span class="brand-smak">Smak</span>
                 </div>
-                <button class="nav-item" style="padding: var(--spacing-sm);">
+            </div>
+            <div class="flex-between">
+                <div>
+                    <h1 style="font-size: var(--font-size-xl);">${title}</h1>
+                    ${subtitle ? `<p class="text-secondary" style="font-size: var(--font-size-sm); margin-top: 2px;">${subtitle}</p>` : ''}
+                </div>
+                <button class="nav-item" style="padding: var(--spacing-sm); color: var(--text-secondary);">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px;">
                         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                         <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>

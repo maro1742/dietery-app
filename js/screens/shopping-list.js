@@ -12,10 +12,9 @@ function renderShoppingListScreen() {
 
     const app = document.getElementById('app');
     app.innerHTML = `
-        <div class="container" style="padding-top: var(--spacing-xl);">
-            <h1 class="mb-sm">Lista Zakupów</h1>
-            
-            <div class="card mb-lg" style="padding: var(--spacing-lg);">
+        ${createHeader('Lista Zakupów')}
+        
+        <div class="container">
                 <div class="flex-between mb-sm">
                     <span class="text-secondary">Twój postęp</span>
                     <span class="font-semibold">${completedCount} z ${totalItems}</span>

@@ -3,7 +3,13 @@
 function renderForgotPasswordScreen() {
     const app = document.getElementById('app');
     app.innerHTML = `
-        <div class="container fade-in" style="padding-top: var(--spacing-xl); text-align: center;">
+        <div class="container fade-in" style="padding-top: var(--spacing-xl);">
+            <div class="brand-header-top mb-xl" onclick="navigateToScreen('home')" style="cursor: pointer;">
+                <img src="assets/logo.svg" alt="FitSmak Logo" class="app-logo">
+                <div class="brand-name">
+                    <span class="brand-fit">Fit</span><span class="brand-smak">Smak</span>
+                </div>
+            </div>
             <h1 class="mb-sm">Zresetuj hasło</h1>
             <p class="text-secondary mb-xl">Wyślemy Ci link do zmiany hasła na podany adres email.</p>
             

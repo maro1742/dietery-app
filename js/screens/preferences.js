@@ -8,8 +8,16 @@ function renderPreferencesScreen() {
 
     if (!user) {
         app.innerHTML = `
-            <div class="container" style="padding-top: var(--spacing-xl); text-align: center;">
-                <div class="auth-box" style="margin-top: 50px;">
+            <div class="screen-header">
+                <div class="brand-header-top" onclick="navigateToScreen('home')" style="cursor: pointer;">
+                    <img src="assets/logo.svg" alt="FitSmak Logo" class="app-logo">
+                    <div class="brand-name">
+                        <span class="brand-fit">Fit</span><span class="brand-smak">Smak</span>
+                    </div>
+                </div>
+            </div>
+            <div class="container" style="text-align: center;">
+                <div class="auth-box" style="margin-top: 20px;">
                     <div class="mb-lg">
                         <div style="font-size: 64px; margin-bottom: 20px;">👤</div>
                         <h1 class="mb-sm">Tryb Gościa</h1>
@@ -25,10 +33,10 @@ function renderPreferencesScreen() {
     }
 
     app.innerHTML = `
-        <div class="container" style="padding-top: var(--spacing-xl);">
+        ${createHeader('Mój Profil')}
+        <div class="container">
             <div class="flex-between mb-lg" style="align-items: flex-start;">
                 <div>
-                    <h1 class="mb-xs">Mój Profil</h1>
                     <div class="flex align-center gap-sm">
                         <div style="width: 10px; height: 10px; border-radius: 50%; background: #4ADE80;"></div>
                         <p class="text-secondary" style="font-size: var(--font-size-sm);">Zalogowany jako: <strong>${user.email}</strong></p>
