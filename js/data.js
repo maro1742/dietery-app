@@ -161,7 +161,7 @@ const RECIPES_DB = [
         id: 6,
         title: "Puszysta jajecznica",
         category: "sniadanie",
-        image: "https://images.unsplash.com/photo-1521513919009-be90ad56b59d?w=800&h=600&fit=crop",
+        image: "assets/images/scrambled-eggs.png",
         time: 10,
         calories: 350,
         difficulty: "łatwe",
