@@ -156,6 +156,36 @@ const RECIPES_DB = [
             "Ugotuj brokuły na parze.",
             "Podawaj z plasterkiem cytryny."
         ]
+    },
+    {
+        id: 6,
+        title: "Puszysta jajecznica",
+        category: "sniadanie",
+        image: "https://images.unsplash.com/photo-1521513919009-be90ad56b59d?w=800&h=600&fit=crop",
+        time: 10,
+        calories: 350,
+        difficulty: "łatwe",
+        servings: 1,
+        isNew: true,
+        tags: ["ŁATWE", "WYSOKOBIAŁKOWE"],
+        nutrition: {
+            protein: 26,
+            carbs: 4,
+            fats: 22
+        },
+        ingredients: [
+            { name: "Jajka", quantity: "3 szt.", category: "nabial" },
+            { name: "Masło", quantity: "1 łyżka", category: "nabial" },
+            { name: "Szczypiorek", quantity: "pęczek", category: "warzywa" },
+            { name: "Sól i pieprz", quantity: "do smaku", category: "przyprawy" }
+        ],
+        instructions: [
+            "Rozbij jajka do miseczki i lekką wymieszaj.",
+            "Rozgrzej masło na patelni na małym ogniu.",
+            "Wlej jajka i smaż powoli, ciągle mieszając.",
+            "Zdejmij z ognia, gdy jajka są jeszcze lekko wilgotne.",
+            "Posyp posiekanym szczypiorkiem przed podaniem."
+        ]
     }
 ];
 
@@ -251,7 +281,7 @@ function getRecipesByCategory(category) {
 
 function searchRecipes(query) {
     const lowerQuery = query.toLowerCase();
-    return RECIPES_DB.filter(recipe => 
+    return RECIPES_DB.filter(recipe =>
         recipe.title.toLowerCase().includes(lowerQuery) ||
         recipe.ingredients.some(ing => ing.name.toLowerCase().includes(lowerQuery))
     );
