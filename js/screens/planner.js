@@ -74,10 +74,15 @@ function renderMealSlot(label, mealType, dateString, recipeId) {
         const recipe = getRecipeById(recipeId);
         if (recipe) {
             return `
-                <div class="meal-slot" style="padding: var(--spacing-sm); background: var(--background); border-radius: var(--radius-sm); margin-bottom: var(--spacing-sm); cursor: pointer;" data-date="${dateString}" data-meal-type="${mealType}">
+                <div class="meal-slot" draggable="true" style="padding: var(--spacing-sm); background: var(--background); border-radius: var(--radius-sm); margin-bottom: var(--spacing-sm); cursor: pointer; position: relative;" data-date="${dateString}" data-meal-type="${mealType}">
                     <div class="text-tertiary" style="font-size: var(--font-size-xs); margin-bottom: 4px;">${label}</div>
                     <div class="font-semibold" style="font-size: var(--font-size-sm);">${escapeHtml(recipe.title)}</div>
                     <div class="text-secondary" style="font-size: var(--font-size-xs);">${recipe.calories} kcal</div>
+                    <button class="remove-meal" style="position: absolute; top: 4px; right: 4px; background: none; border: none; color: var(--text-tertiary); padding: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Usuń posiłek">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 14px; height: 14px;">
+                            <path d="M18 6L6 18M6 6l12 12"></path>
+                        </svg>
+                    </button>
                 </div>
             `;
         }
@@ -94,6 +99,22 @@ function renderMealSlot(label, mealType, dateString, recipeId) {
 function attachPlannerEventListeners() {
     // Meal slot clicks
     document.querySelectorAll('.meal-slot').forEach(slot => {
+        const removeBtn = slot.querySelector('.remove-meal');
+
+        if (removeBtn) {
+            removeBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Don't trigger slot click
+                const date = slot.dataset.date;
+                const mealType = slot.dataset.mealType;
+
+                if (mealPlan[date]) {
+                    delete mealPlan[date][mealType];
+                    saveMealPlan();
+                    renderPlannerScreen();
+                }
+            });
+        }
+
         slot.addEventListener('click', (e) => {
             const date = e.currentTarget.dataset.date;
             const mealType = e.currentTarget.dataset.mealType;
@@ -106,6 +127,54 @@ function attachPlannerEventListeners() {
                 // For demo, just add first recipe
                 if (!mealPlan[date]) mealPlan[date] = {};
                 mealPlan[date][mealType] = recipes[0].id;
+                saveMealPlan();
+                renderPlannerScreen();
+            }
+        });
+
+        // Drag and Drop listeners
+        slot.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('sourceDate', e.currentTarget.dataset.date);
+            e.dataTransfer.setData('sourceMealType', e.currentTarget.dataset.mealType);
+            e.currentTarget.style.opacity = '0.4';
+        });
+
+        slot.addEventListener('dragend', (e) => {
+            e.currentTarget.style.opacity = '1';
+        });
+
+        slot.addEventListener('dragover', (e) => {
+            e.preventDefault(); // Allow drop
+            e.currentTarget.style.background = 'var(--border)';
+        });
+
+        slot.addEventListener('dragleave', (e) => {
+            e.currentTarget.style.background = 'var(--background)';
+        });
+
+        slot.addEventListener('drop', (e) => {
+            e.preventDefault();
+            e.currentTarget.style.background = 'var(--background)';
+
+            const sourceDate = e.dataTransfer.getData('sourceDate');
+            const sourceMealType = e.dataTransfer.getData('sourceMealType');
+            const targetDate = e.currentTarget.dataset.date;
+            const targetMealType = e.currentTarget.dataset.mealType;
+
+            // Prevent self-drop
+            if (sourceDate === targetDate && sourceMealType === targetMealType) return;
+
+            // Get recipe from source
+            if (mealPlan[sourceDate] && mealPlan[sourceDate][sourceMealType]) {
+                const recipeId = mealPlan[sourceDate][sourceMealType];
+
+                // If target already has a meal, we could swap, but for now let's just overwrite or move
+                if (!mealPlan[targetDate]) mealPlan[targetDate] = {};
+
+                // Move recipe
+                mealPlan[targetDate][targetMealType] = recipeId;
+                delete mealPlan[sourceDate][sourceMealType];
+
                 saveMealPlan();
                 renderPlannerScreen();
             }
