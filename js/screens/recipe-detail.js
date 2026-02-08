@@ -226,22 +226,38 @@ function attachRecipeDetailEventListeners(recipe) {
 }
 
 function addRecipeToMealPlan(recipeId) {
-    const today = getCurrentDateString();
+    let targetDate = getCurrentDateString();
     const recipe = getRecipeById(recipeId);
 
-    if (!mealPlan[today]) {
-        mealPlan[today] = {};
-    }
-
-    // Add to appropriate meal slot based on category
-    const mealType = recipe.category === 'sniadanie' ? 'breakfast' :
+    // Default meal type based on category
+    let targetMealType = recipe.category === 'sniadanie' ? 'breakfast' :
         recipe.category === 'obiad' ? 'lunch' : 'dinner';
 
-    mealPlan[today][mealType] = recipeId;
+    // If we came from the planner, use the intended target
+    if (window.planningTarget) {
+        targetDate = window.planningTarget.date;
+        targetMealType = window.planningTarget.mealType;
+        // Don't clear yet, we might need it for feedback logic if extended, 
+        // but for now let's clear it after the save
+    }
+
+    if (!mealPlan[targetDate]) {
+        mealPlan[targetDate] = {};
+    }
+
+    mealPlan[targetDate][targetMealType] = recipeId;
     saveMealPlan();
 
     // Regenerate shopping list
     const ingredients = generateShoppingList(mealPlan);
     shoppingList.items = ingredients;
     saveShoppingList();
+
+    // If we were in planning mode, go back to planner
+    if (window.planningTarget) {
+        window.planningTarget = null;
+        setTimeout(() => {
+            navigateToScreen('planner');
+        }, 800); // Small delay to let user see "Added" feedback
+    }
 }

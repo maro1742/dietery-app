@@ -119,17 +119,21 @@ function attachPlannerEventListeners() {
             const date = e.currentTarget.dataset.date;
             const mealType = e.currentTarget.dataset.mealType;
 
-            // Show recipe picker (simplified - just pick first available)
-            const preferences = loadPreferences();
-            const recipes = getPersonalizedRecommendations(preferences, 5);
+            // Set target for recipe detail screen
+            window.planningTarget = { date, mealType };
 
-            if (recipes.length > 0) {
-                // For demo, just add first recipe
-                if (!mealPlan[date]) mealPlan[date] = {};
-                mealPlan[date][mealType] = recipes[0].id;
-                saveMealPlan();
-                renderPlannerScreen();
-            }
+            // Map mealType to category name
+            const categoryMap = {
+                'breakfast': 'sniadanie',
+                'lunch': 'obiad',
+                'dinner': 'kolacja'
+            };
+
+            // Pre-filter home screen
+            window.currentCategory = categoryMap[mealType] || 'wszystkie';
+
+            // Navigate to recipe list
+            navigateToScreen('home');
         });
 
         // Drag and Drop listeners
